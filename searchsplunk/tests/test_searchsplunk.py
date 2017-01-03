@@ -166,8 +166,6 @@ def test_version_is_valid():
         'MYUSER',
         'MYPASS'
     )
-    print type(s.version)
-    print s.version
     assert bool(re.match(r'^\d+\.\d+\.\d+$', str(s.version))) is True
 
 
