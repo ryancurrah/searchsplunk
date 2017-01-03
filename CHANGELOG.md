@@ -1,4 +1,4 @@
-## 0.2.1 (January, 4 2017)
+## 0.2.1 (January, 4, 2017)
 ### Fixed
 
 * Tests failing in Python 3
