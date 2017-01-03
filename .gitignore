@@ -1,0 +1,7 @@
+*.pyc
+.idea
+.tox
+.cache
+.coverage
+*.egg-info
+.DS_Store

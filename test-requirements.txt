@@ -1,0 +1,6 @@
+pytest
+pytest-cov
+pytest-pep8
+httpretty
+pytest-httpretty
+python-coveralls
