@@ -1,11 +1,17 @@
+import re
 import httpretty
 import pytest
 from searchsplunk.searchsplunk import SearchSplunk
+from searchsplunk.exceptions import SplunkInvalidCredentials
 
 
 auth_response = """<response>
   <sessionKey>abc123efg456</sessionKey>
 </response>
+"""
+
+bad_auth_response = """
+Invalid login credentials!
 """
 
 search_response = """<?xml version="1.0" encoding="UTF-8"?>
@@ -106,6 +112,9 @@ search_result = """
 
 @pytest.mark.httpretty
 def test_searchsplunk():
+    """
+    Login and running a search should return a result
+    """
     httpretty.register_uri(
         httpretty.POST,
         'http://example.com/services/auth/login',
@@ -138,5 +147,44 @@ def test_searchsplunk():
         'openstack_uid=e0303456c-d5a3-789f-ab68-8f27561ffa0f | '
         'dedup openstack_uid'
     )
-
     assert len(result['results']) == 1
+
+
+@pytest.mark.httpretty
+def test_version_is_valid():
+    """
+    Getting the module version should work as expected
+    """
+    httpretty.register_uri(
+        httpretty.POST,
+        'http://example.com/services/auth/login',
+        body=auth_response
+    )
+
+    s = SearchSplunk(
+        'http://example.com/',
+        'MYUSER',
+        'MYPASS'
+    )
+    print type(s.version)
+    print s.version
+    assert bool(re.match(r'^\d+\.\d+\.\d+$', str(s.version))) is True
+
+
+@pytest.mark.httpretty
+def test_bad_login():
+    """
+    Bad login should raise a SplunkInvalidCredentials exception
+    """
+    httpretty.register_uri(
+        httpretty.POST,
+        'http://example.com/services/auth/login',
+        body=bad_auth_response
+    )
+
+    with pytest.raises(SplunkInvalidCredentials):
+        SearchSplunk(
+            'http://example.com/',
+            'MYUSER',
+            'MYPASS'
+        )

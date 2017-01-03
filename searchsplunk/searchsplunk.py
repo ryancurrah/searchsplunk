@@ -2,6 +2,7 @@ import re
 import warnings
 import requests
 from xml.dom import minidom
+from xml.parsers.expat import ExpatError
 from .exceptions import SplunkInvalidCredentials
 from .version import __version__
 
@@ -31,8 +32,8 @@ class Splunk(object):
         self.__login()
         return
 
-    @staticmethod
-    def version():
+    @property
+    def version(self):
         """
         Get the module version
 
@@ -58,9 +59,9 @@ class Splunk(object):
             self.session_key = minidom.parseString(
                 r.text
             ).getElementsByTagName('sessionKey')[0].childNodes[0].nodeValue
-        except (IndexError, KeyError):
+        except (IndexError, KeyError, ExpatError):
             raise SplunkInvalidCredentials(
-                'HTTP status code:\n{0}\nError message:\n{1]'.format(
+                'HTTP status code:\n{0}\nError message:\n{1}'.format(
                     r.status_code,
                     r.text
                 )
