@@ -1,6 +1,7 @@
 import re
 import warnings
 import requests
+from time import sleep
 from xml.dom import minidom
 from xml.parsers.expat import ExpatError
 from .exceptions import SplunkInvalidCredentials
@@ -118,6 +119,7 @@ class SearchSplunk(Splunk):
 
         search_done = False
         while not search_done:
+            sleep(1)
             if self.__search_status(sid):
                 search_done = True
         return self.__search_result(sid)
@@ -137,9 +139,9 @@ class SearchSplunk(Splunk):
 
         s = self.request(method, uri, body={'search': search_query})
 
-        return minidom.parseString(
-            s.text
-        ).getElementsByTagName('sid')[0].childNodes[0].nodeValue
+        xml_result = minidom.parseString(s.text)
+        sid = xml_result.getElementsByTagName('sid')[0].childNodes[0].nodeValue
+        return sid
 
     def __search_status(self, sid):
         """
