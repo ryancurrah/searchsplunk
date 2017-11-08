@@ -10,7 +10,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='searchsplunk',
-    version='0.2.1',
+    version='0.3.0',
     description='Splunk search client',
     long_description=long_description,
     author='Ryan Currah',
