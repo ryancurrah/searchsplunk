@@ -13,6 +13,7 @@ setup(
     version='0.3.0',
     description='Splunk search client',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Ryan Currah',
     author_email='ryan@currah.ca',
     url='https://github.com/ryancurrah/searchsplunk',
