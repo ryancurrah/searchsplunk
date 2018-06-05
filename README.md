@@ -112,6 +112,7 @@ print json.dumps(result, sort_keys=True, indent=2)
 ## Contributors
 
   - [pkeeper](https://github.com/pkeeper)
+  - [lowell80](https://github.com/lowell80)
 
 ## Author
 

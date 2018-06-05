@@ -1,3 +1,7 @@
+## 0.3.1 (June, 5, 2018)
+### Fixed
+* Ensure markdown is used for pypi description
+
 ## 0.3.0 (November, 8, 2017)
 ### Fixed
 * Prevent wasted CPU cycles on long searches by sleeping for 1 second after each result check
